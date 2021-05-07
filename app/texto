@@ -1,0 +1,13 @@
+LOGIN               Validación correo y clave           Sesion Iniciada             Cerrar sesión
+Registro nuevo      Validar datos                       Insertar datos BD           Mensaje Bienvenida
+     usuario
+Olvida Clave acc    Correo usuario                      Cambiar clave
+Recuerdame (cookies)
+
+
+LoginController: index, olvido, registro, cambiarClave, verifyUser, modelo, vista
+Login: __contruct, insertarRegistro, cambiarClaveAcceso, validaCorreo, verificar, getUsuarioCorreo, enviarCorreo
+MySQLdb: ..., query, queryNoSelect
+Sesion: __construct, iniciarLogin, finalizarLogin, getLogin, getUsuario
+ShopController:
+Shop:
