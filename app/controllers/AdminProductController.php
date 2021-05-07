@@ -13,7 +13,7 @@ class AdminProductController extends Controller
     {
         $session = new Session();
         if ($session->getLogin()) {
-            $products = $this->model->getProducts();
+            $products = $this->model->getProducts(true);
             $type = $this->model->getConfig('productType');
             $data = [
                 'titulo'    => 'Administración de Productos',

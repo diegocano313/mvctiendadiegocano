@@ -9,13 +9,20 @@ class AdminProduct
         $this->db = MySQLdb::getInstance()->getDatabase();
     }
 
-    public function getProducts()
+    public function getProducts($limitado = false)
     {
-        $sql = 'SELECT * FROM products WHERE deleted=0';
+        if($limitado){
+            $sql = 'SELECT id, type,name, IF(length(description) <= 40, description, CONCAT(SUBSTRING(description, 1, 40),"...")) description, price,discount,send,image,published,relation1,relation2,relation3,mostSold,new, status, deleted
+         FROM products WHERE deleted=0';
+        }
+        else {
+            $sql = 'SELECT * FROM products WHERE deleted=0';
+        }
+
         $query = $this->db->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
-    }
+    }   
 
     public function getConfig($type)
     {
