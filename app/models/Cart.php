@@ -11,7 +11,7 @@ class Cart
 
     public function verifyProduct($product_id, $user_id)
     {
-        $sql = 'SELECT * FROM carts WHERE product_id = :product_id AND user_id = :user_id';
+        $sql = 'SELECT * FROM carts WHERE product_id = :product_id AND user_id = :user_id AND state = 0';
         $query = $this->db->prepare($sql);
         $params = [
             ':product_id' => $product_id,
@@ -23,13 +23,14 @@ class Cart
 
     public function addProduct($product_id, $user_id)
     {
+
         $sql = 'SELECT * FROM products WHERE id=:id';
         $query = $this->db->prepare($sql);
         $query->execute([':id' => $product_id]);
         $product = $query->fetch(PDO::FETCH_OBJ);
 
-        $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date)
-            VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date)';
+        $sql2 = 'INSERT INTO carts(state, user_id, product_id, quantity, discount, send, date, precio_producto)
+            VALUES (:state, :user_id, :product_id, :quantity, :discount, :send, :date, :precio_producto)';
         $query2 = $this->db->prepare($sql2);
         $params2 = [
             ':state' => 0,
@@ -39,6 +40,7 @@ class Cart
             ':discount' => $product->discount,
             ':send' => $product->send,
             ':date' => date('Y-m-d H:i:s'),
+            ':precio_producto' => $product->price,
         ];
         $query2->execute($params2);
         return $query2->rowCount();
@@ -152,7 +154,7 @@ class Cart
         var_dump($params);
         return $query->execute($params);*/
 
-        $sql = "INSERT INTO addresses (first_name,last_name_1,last_name_2,email,address,city,state,zipcode,country) VALUES ('$user->first_name','$user->last_name_1','last_name_2','email','email','address','city','state','state', 'country')";
+        $sql = "INSERT INTO addresses (first_name,last_name_1,last_name_2,email,address,city,state,zipcode,country) VALUES ('$user->first_name','$user->last_name_1','$user->last_name_2','$user->email','$user->address','$user->city','$user->state','$user->zipcode','$user->country')";
         return  $this->db->query($sql);
     }
 }

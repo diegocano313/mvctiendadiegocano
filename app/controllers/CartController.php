@@ -11,11 +11,19 @@ class CartController extends Controller
 
     public function addProduct($product_id, $user_id)
     {
+
         $errors = [];
         if ( ! $this->model->verifyProduct($product_id, $user_id)) {
+            //var_dump("No existe ese producto en el carro de este usuario");
             if ( ! $this->model->addProduct($product_id, $user_id)) {
                 array_push($errors, 'Error al insertar el producto en el carrito');
             }
+            else {
+                //var_dump("Producto añadido al carro de este usuario");
+            }
+        }
+        else {
+            //var_dump("Ya existe ese producto en el carro del usuario");
         }
         $this->index($errors);
     }
