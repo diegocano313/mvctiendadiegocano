@@ -42,7 +42,7 @@ class AdminController extends Controller
                 if (empty($errors)) {
                     $session = new Session();
                     $session->login($dataForm);
-                    header('location:' . ROOT . 'adminshop');
+                    header('location:' . ROOT . 'adminShop');
                 }
             }
         }
@@ -54,5 +54,12 @@ class AdminController extends Controller
             'data'      => $dataForm,
         ];
         $this->view('admin/index', $data);
+    }
+
+    public function logout()
+    {
+        $session = new Session();
+        $session->logout();
+        header('location:'.ROOT);
     }
 }
