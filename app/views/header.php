@@ -42,6 +42,15 @@
                         Contacto
                     </a>
                 </li>
+                <?php 
+
+               //var_dump($data);
+
+                if (isset($data['admin']) && $data['admin'] != 0): ?>
+                <li class="nav-item">
+                    <a href="<?= ROOT ?>adminShop" class="nav-link">Panel Administración</a>
+                </li>
+                <?php endif; ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (isset($_SESSION['cartTotal']) && $_SESSION['cartTotal'] > 0): ?>
@@ -62,7 +71,7 @@
             </ul>
         <?php endif; ?>
         <?php if (isset($data['admin']) && $data['admin']): ?>
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">               
                 <li class="nav-item">
                     <a href="<?= ROOT ?>adminuser" class="nav-link">Usuarios</a>
                 </li>

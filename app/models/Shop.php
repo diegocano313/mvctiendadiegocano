@@ -17,6 +17,16 @@ class Shop
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function existsEmailAdmin($email)
+    {
+        $sql = 'SELECT * FROM admins WHERE email=:email';
+        $query = $this->db->prepare($sql);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->execute();
+        return $query->rowCount();
+    }
+
+
     public function getProductById($id)
     {
         $sql = 'SELECT * FROM products WHERE id=:id';

@@ -59,7 +59,7 @@ class AdminUserController extends Controller
             if ($password1 != $password2) {
                 array_push($errors, 'Las contraseñas no coinciden');
             }
-
+            
             if (count($errors) == 0) {
                 if ($this->model->createAdminUser($dataForm)) {
                     header('location:' . ROOT . 'adminuser');

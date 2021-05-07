@@ -31,6 +31,21 @@ class AdminUser
             $query = $this->db->prepare($sql);
             $response = $query->execute($params);
         }
+
+        if ( ! $this->existsEmail($data['email'])) {
+            // Como el email no existe, se crea el registro
+            $password = hash_hmac('sha512', $data['password'], ENCRIPTKEY);
+
+            $sql = 'INSERT INTO users (first_name, email,  password)
+                    VALUES (:first_name, :email, :password)';
+            $query = $this->db->prepare($sql);
+            $params = [
+                ':name' => $data['name'],
+                ':email' => $data['email'],                
+                ':password' => $password,
+            ];
+            $response = $query->execute($params);
+        }
         return $response;
     }
 

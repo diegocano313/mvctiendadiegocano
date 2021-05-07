@@ -12,9 +12,13 @@ class ShopController extends Controller
     public function index()
     {
         $session = new Session();
+
         if ($session->getLogin()) {
             $mostSold = $this->model->getMostSold();
             $news = $this->model->getNews();
+            
+            $admin = $this->model->existsEmailAdmin($session->getUser()->email);
+            
             $data = [
                 'titulo'    => 'Bienvenid@ a nuestra tienda',
                 'menu'      => true,
@@ -22,6 +26,7 @@ class ShopController extends Controller
                 'subtitle2' => 'Artículos nuevos',
                 'data'      => $mostSold,
                 'news'      => $news,
+                'admin'     => $admin
             ];
             $this->view('shop/index', $data);
         } else {

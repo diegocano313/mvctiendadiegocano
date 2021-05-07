@@ -26,7 +26,7 @@ class LoginController extends Controller
         $data = [
             'titulo' => 'Login',
             'menu'   => false,
-            'data'   => $dataForm,
+            'data'   => $dataForm
         ];
         $this->view('login', $data);
     }
@@ -311,6 +311,7 @@ class LoginController extends Controller
 
             if ( ! $errors) {
                 $data = $this->model->getUserByEmail($user);
+                
                 $session = new Session();
                 $session->login($data);
                 header("location:" . ROOT . 'shop');
