@@ -38,6 +38,7 @@ class ShopController extends Controller
     {
         $session = new Session();
         $product = $this->model->getProductById($id);
+        //var_dump($product);
         $data = [
             'titulo'    => 'Detalle del producto',
             'subtitle'  => $product->name,

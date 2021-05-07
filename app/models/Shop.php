@@ -29,7 +29,7 @@ class Shop
 
     public function getProductById($id)
     {
-        $sql = 'SELECT * FROM products WHERE id=:id';
+        $sql = 'SELECT p.*, IF(type=2,"libros","cursos") listado FROM products p WHERE id=:id';
         $query = $this->db->prepare($sql);
         $query->execute([':id' => $id]);
         return $query->fetch(PDO::FETCH_OBJ);

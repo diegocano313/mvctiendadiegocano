@@ -22,6 +22,7 @@
 <?php endif ?>
 <a href="<?= ROOT ?>cart/addproduct/<?= $data['data']->id ?>/<?= $data['user_id'] ?>" class="btn btn-info">Comprar</a>
 <a href="<?= ROOT . ((empty($data['back'])) ? 'shop' : $data['back'] ) ?>" class="btn btn-success">
-    Volver al listado de productos
+    Volver al listado de <?=$data['data']->listado?> <!--<?=(($data['data']->type == 2))?'libros':(($data['data']->type == 1)?'cursos':'productos')?>-->
+
 </a>
 <?php include_once (VIEWS.'footer.php')?>
