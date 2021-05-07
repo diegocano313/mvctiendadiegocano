@@ -1,3 +1,10 @@
+<?php    
+    $logueado = false;
+    if (isset($_SESSION['user']->id) == 1) {
+        $logueado = true;
+    }
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -65,9 +72,27 @@
                         <button type="submit" class="btn btn-light"><i class="fas fa-search"></i></button>
                     </form>
                 </li>
-                <li class="nav-item">
-                    <a href="<?= ROOT.'shop/logout' ?>" class="nav-link">Salir</a>
-                </li>
+                <?php 
+                    if(!$logueado){
+                        ?>
+                        <li class="nav-item">
+                            <a href="<?= ROOT.'login' ?>" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= ROOT.'login/registro' ?>" class="nav-link">Registrate!!</a>
+                        </li>                
+                        
+                    <?php
+                    }
+                    else {?>
+                        <li class="nav-item">
+                            <a href="<?= ROOT.'shop/logout' ?>" class="nav-link">Salir</a>
+                        </li>   
+                    <?php
+                    } 
+                ?>   
+
+                        
             </ul>
         <?php endif; ?>
         <?php if (isset($data['admin']) && $data['admin']): ?>

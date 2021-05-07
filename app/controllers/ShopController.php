@@ -30,32 +30,63 @@ class ShopController extends Controller
             ];
             $this->view('shop/index', $data);
         } else {
-            header('location:' . ROOT);
+            $mostSold = $this->model->getMostSold();
+            $news = $this->model->getNews();
+                        
+            $data = [
+                'titulo'    => 'Bienvenid@ a nuestra tienda',
+                'menu'      => true,
+                'subtitle'  => 'Bienvenid@ a nuestra tienda',
+                'subtitle2' => 'Artículos nuevos',
+                'data'      => $mostSold,
+                'news'      => $news,
+                'admin'     => 0
+            ];
+            $this->view('shop/index', $data);
         }
     }
 
     public function show($id, $back = '')
     {
         $session = new Session();
-        $product = $this->model->getProductById($id);
-        //var_dump($product);
-        $data = [
-            'titulo'    => 'Detalle del producto',
-            'subtitle'  => $product->name,
-            'menu'      => true,
-            'admin'     => false,
-            'back'      => $back,
-            'errors'    => [],
-            'data'      => $product,
-            'user_id'   => $session->getUserId(),
-        ];
-        $this->view('shop/show', $data);
+        if ($session->getLogin()) {
+            $product = $this->model->getProductById($id);
+            //var_dump($product);
+            $data = [
+                'titulo'    => 'Detalle del producto',
+                'subtitle'  => $product->name,
+                'menu'      => true,
+                'admin'     => false,
+                'back'      => $back,
+                'errors'    => [],
+                'data'      => $product,
+                'user_id'   => $session->getUserId(),
+            ];
+            $this->view('shop/show', $data);
+        }
+        else{
+            $product = $this->model->getProductById($id);
+            //var_dump($product);
+            $data = [
+                'titulo'    => 'Detalle del producto',
+                'subtitle'  => $product->name,
+                'menu'      => true,
+                'admin'     => false,
+                'back'      => $back,
+                'errors'    => [],
+                'data'      => $product,
+                'user_id'   => 0,
+            ];
+            $this->view('shop/show', $data);
+        }
     }
 
     public function logout()
     {
         $session = new Session();
-        $session->logout();
+        if ($session->getLogin()) {
+            $session->logout();
+        }
         header('location:'.ROOT);
     }
 

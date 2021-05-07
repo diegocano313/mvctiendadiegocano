@@ -11,19 +11,15 @@ class BooksController extends Controller
 
     public function index()
     {
-        $session = new Session();
-        if ($session->getLogin()) {
-            $books = $this->model->getBooks();
-            $data = [
-                'titulo'    => 'Libros',
-                'subtitle'  => 'Libros',
-                'menu'      => true,
-                'active'    => 'books',
-                'data'      => $books,
-            ];
-            $this->view('books/index', $data);
-        } else {
-            header('location:'. ROOT);
-        }
+
+        $books = $this->model->getBooks();
+        $data = [
+            'titulo'    => 'Libros',
+            'subtitle'  => 'Libros',
+            'menu'      => true,
+            'active'    => 'books',
+            'data'      => $books,
+        ];
+        $this->view('books/index', $data);
     }
 }

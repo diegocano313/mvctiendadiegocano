@@ -44,7 +44,7 @@ class CartController extends Controller
             ];
             $this->view('carts/index', $data);
         } else {
-            header('location:'.ROOT);
+            header('location:'.'/login');
         }
     }
 
