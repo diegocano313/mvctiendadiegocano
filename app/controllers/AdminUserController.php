@@ -29,6 +29,37 @@ class AdminUserController extends Controller
 
     }
 
+    public function store($dataForm, $errors){
+         if (count($errors) == 0) {
+            if ($this->model->createAdminUser($dataForm)) {
+                header('location:' . ROOT . 'adminuser');
+            } else {
+                $data = [
+                    'titulo'    => 'Error en la creación del usuario administrador',
+                    'menu'      => false,
+                    'errors'    => [],
+                    'subtitle' => 'Error al crear un nuevo usuario administrador',
+                    'text' => 'Existió un error al crear un nuevo usuario administrador.',
+                    'color' => 'alert-danger',
+                    'url' => 'adminuser',
+                    'colorButton' => 'btn-danger',
+                    'textButton' => 'Volver'
+                ];
+                $this->view('mensaje', $data);
+            }
+        } else {
+            $data = [
+                'titulo'    => 'Administración de usuarios - Alta',
+                'menu'      => false,
+                'admin'     => true,
+                'errors'    => $errors,
+                'data'  => $dataForm,
+            ];
+
+            $this->view('admin/users/create', $data);
+        }
+    }
+
     public function create()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -59,7 +90,10 @@ class AdminUserController extends Controller
             if ($password1 != $password2) {
                 array_push($errors, 'Las contraseñas no coinciden');
             }
-            
+
+            $this->store($dataForm, $errors);
+
+            /*
             if (count($errors) == 0) {
                 if ($this->model->createAdminUser($dataForm)) {
                     header('location:' . ROOT . 'adminuser');
@@ -87,7 +121,7 @@ class AdminUserController extends Controller
                 ];
 
                 $this->view('admin/users/create', $data);
-            }
+            }*/
 
         } else {
             $data = [
@@ -101,8 +135,7 @@ class AdminUserController extends Controller
         }
     }
 
-    public function update($id)
-    {
+    public function edit($id){
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = isset($_POST['name']) ? $_POST['name'] : '';
@@ -125,18 +158,9 @@ class AdminUserController extends Controller
                     array_push($errors, 'Las contraseñas no coinciden');
                 }
             }
+
             if (empty($errors)) {
-                $data = [
-                    'id'    => $id,
-                    'name'  => $name,
-                    'email' => $email,
-                    'password' => $password1,
-                    'status'=> $status,
-                ];
-                $errors = $this->model->setUser($data);
-                if (empty($errors)) {
-                    header('location:' . ROOT . 'adminuser');
-                }
+                $this->update($errors, $id, $name, $email, $password1, $status);
             }
         }
         $user = $this->model->getUserById($id);
@@ -152,14 +176,35 @@ class AdminUserController extends Controller
         $this->view('admin/users/update', $data);
     }
 
+    public function update($errors, $id, $name, $email, $password, $status)
+    {                
+        $data = [
+            'id'    => $id,
+            'name'  => $name,
+            'email' => $email,
+            'password' => $password,
+            'status'=> $status,
+        ];
+        $errors = $this->model->setUser($data);
+        if (empty($errors)) {
+            header('location:' . ROOT . 'adminUser');
+        }
+    }
+
+    public function destroy($id){
+        var_dump("BORRO: ".$id);
+        $errors = $this->model->delete($id);
+        if(empty($errors)) {
+            header('location:'.ROOT.'adminUser');
+        }
+    }
+
     public function delete($id)
     {
         $errors = [];
+        var_dump("QUIERO BORRAR: ".$id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $errors = $this->model->delete($id);
-            if(empty($errors)) {
-                header('location:'.ROOT.'adminuser');
-            }
+            $this->destroy($id);
         }
         $user = $this->model->getUserById($id);
         $status = $this->model->getConfig('adminStatus');

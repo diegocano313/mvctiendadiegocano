@@ -4,7 +4,7 @@
             <h1 class="text-center">Modificación de un usuario administrador</h1>
         </div>
         <div class="card-body">
-            <form action="<?= ROOT ?>adminuser/update/<?= $data['user']->id ?>" method="POST">
+            <form action="<?= ROOT ?>adminUser/edit/<?= $data['user']->id ?>" method="POST">
                 <div class="form-group text-left">
                     <label for="name">Usuario:</label>
                     <input type="text" name="name" class="form-control"
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group text-left">
                     <input type="submit" value="Modificar" class="btn btn-success">
-                    <a href="<?= ROOT ?>adminusers" class="btn btn-info">Regresar</a>
+                    <a href="<?= ROOT ?>adminUsers" class="btn btn-info">Regresar</a>
                 </div>
             </form>
         </div>
