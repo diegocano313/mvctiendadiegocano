@@ -294,6 +294,8 @@ class LoginController extends Controller
 
             $errors = $this->model->verifyUser($user, $password);
 
+            $password = hash_hmac('sha512', $password, ENCRIPTKEY);
+
             $value = $user . '//' . $password;
             if ($remember == 'on') {
                 $date = time() + (60 * 60 * 24 * 7);
