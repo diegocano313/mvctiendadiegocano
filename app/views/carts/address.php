@@ -9,7 +9,7 @@
         </ol>
     </nav>
     <div class="card-header">
-        <h1><?= $data['subtitle'] ?></h1>
+        <h1><?= $data['subtitle'] ?></h1>  
         <p>Por favor, compruebe los datos de envío y cambie lo que considere necesario</p>
     </div>
     <div class="card-body">

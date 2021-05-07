@@ -192,7 +192,6 @@ class AdminUserController extends Controller
     }
 
     public function destroy($id){
-        var_dump("BORRO: ".$id);
         $errors = $this->model->delete($id);
         if(empty($errors)) {
             header('location:'.ROOT.'adminUser');
@@ -202,7 +201,6 @@ class AdminUserController extends Controller
     public function delete($id)
     {
         $errors = [];
-        var_dump("QUIERO BORRAR: ".$id);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->destroy($id);
         }

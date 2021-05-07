@@ -88,15 +88,107 @@ class CartController extends Controller
         }
     }
 
+    public function verificarDatos(){
+        $session = new Session();
+        $user = $session->getUser();
+        
+        $data = [
+            'titulo'    => 'Carrito | Validar datos',
+            'subtitle'  => 'Usuario | Valide informacion de envio',
+            'menu'      => true,
+            'data'      => $user,
+        ];
+        $this->view('carts/verificarDatos', $data);
+    }
+
     public function paymentmode()
     {
+        $errors = array();
         // Procesar los datos del formulario
-        $data = [
-            'titulo'    => 'Carrito | Forma de pago',
-            'subtitle'  => 'checkout | Forma de pago',
-            'menu'      => true,
-        ];
-        $this->view('carts/paymentmode', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $errors = [];
+            $first_name = isset($_POST['first_name']) ? $_POST['first_name'] : '';
+            $last_name_1 = isset($_POST['last_name_1']) ? $_POST['last_name_1'] : '';
+            $last_name_2 = isset($_POST['last_name_2']) ? $_POST['last_name_2'] : '';
+            $email = isset($_POST['email']) ? $_POST['email'] : '';
+            $address = isset($_POST['address']) ? $_POST['address'] : '';
+            $city = isset($_POST['city']) ? $_POST['city'] : '';
+            $state = isset($_POST['state']) ? $_POST['state'] : '';
+            $zipcode = isset($_POST['zipcode']) ? $_POST['zipcode'] : '';
+            $country = isset($_POST['country']) ? $_POST['country'] : '';
+
+
+            $dataForm = [
+                'first_name' => $first_name,
+                'last_name_1' => $last_name_1,
+                'last_name_2' => $last_name_2,
+                'email' => $email,
+                'address' => $address,
+                'city' => $city,
+                'state' => $state,
+                'zipcode' => $zipcode,
+                'country' => $country
+            ];
+
+            /*$object = new stdClass();
+            foreach ($array as $key => $value)
+            {
+                $object->$key = $value;
+            }*/
+
+            if (empty($first_name)) {
+                array_push($errors, 'El nombre del usuario es obligatorio');
+            }
+            if (empty($last_name_1)) {
+                array_push($errors, 'El apellido1 del usuario es obligatorio');
+            }
+            if (empty($last_name_2)) {
+                array_push($errors, 'El apellido2 del usuario es obligatorio');
+            }
+            if (empty($email)) {
+                array_push($errors, 'El email del usuario es obligatorio');
+            }
+            if (empty($address)) {
+                array_push($errors, 'La direccion del usuario es obligatorio');
+            }
+            if (empty($city)) {
+                array_push($errors, 'La ciudad del usuario es obligatorio');
+            }
+            if (empty($state)) {
+                array_push($errors, 'La region del usuario es obligatorio');
+            }
+            if (empty($zipcode)) {
+                array_push($errors, 'El codigo postal del usuario es obligatorio');
+            }
+            if (empty($country)) {
+                array_push($errors, 'El pais del usuario es obligatorio');
+            }
+        }
+
+        $session = new Session();
+        $user = $session->getUser();
+        
+        if (count($errors) == 0) {
+            $data = [
+                'titulo'    => 'Carrito | Validar datos',
+                'subtitle'  => 'Usuario | Valide informacion de envio',
+                'menu'      => true,
+                'data'      => $user,
+            ];
+            //$this->view('carts/verificarDatos', $data);
+            $this->model->guardarAddress($user);
+            $this->view('carts/paymentmode', $data);
+        }
+        else {
+            $data = [
+                'titulo'    => 'Carrito - Datos de envío',
+                'subtitle'  => 'Carrito - Verificar dirección de envío',
+                'errors'   => $errors,
+                'menu'      => true,
+                'data'      => $user,
+            ];
+            $this->view('carts/address', $data);
+        }
     }
 
     public function verify()

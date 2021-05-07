@@ -133,4 +133,27 @@ class Cart
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function guardarAddress($user){
+        /*$sql = "INSERT INTO addresses (first_name,last_name_1,last_name_2,email,address,city,state,zipcode,country) VALUES (?,?,?,?,?,?,?,?,?)";
+        $query = $this->db->prepare($sql);
+        var_dump($query);
+        $params = [
+            ':first_name' => $user->first_name,
+            ':last_name_1'   => $user->last_name_1,
+            ':last_name_2'    => $user->last_name_2,
+            ':email'    => $user->email,
+            ':address'    => $user->address,
+            ':state'    => $user->state,
+            ':zipcode'    => $user->zipcode,
+            ':country'=> $user->country,
+            ':city'    => $user->city,
+        ];
+        var_dump($params);
+        return $query->execute($params);*/
+
+        $sql = "INSERT INTO addresses (first_name,last_name_1,last_name_2,email,address,city,state,zipcode,country) VALUES ('$user->first_name','$user->last_name_1','last_name_2','email','email','address','city','state','state', 'country')";
+        return  $this->db->query($sql);
+    }
 }
+
